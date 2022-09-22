@@ -1,0 +1,5 @@
+package attacks
+
+func SynFlood() {
+
+}
