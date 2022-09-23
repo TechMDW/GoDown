@@ -26,7 +26,7 @@ godown <command>
 
 ### Commands
 
-**httpflood** - Initiates a http flood to the specified url/ip/hostname. `get -h` for more info.
+**httpflood** - Initiates a http flood to the specified url/ip/hostname. `httpflood -h` for more info.
 
 **history** - Shows a list of the latest 50 requests.
 
