@@ -10,6 +10,12 @@ import (
 )
 
 // WIP
+//
+// When tested the connection dont stay alive for that long, and the website was uneffected.
+//
+// url - URL/IP/HOSTNAME to use
+//
+// g - amount of goroutines
 func Slowloris(url string, g int) {
 	for i := 0; i < g; i++ {
 		go spawnSlowloris(url)

