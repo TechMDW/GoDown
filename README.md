@@ -4,6 +4,16 @@
 
 Well, we use this tool to test our own applications.
 
+### Download Prebuild
+
+All the Pre Built binary are available in the [release page](https://github.com/TechMDW/GoDown/releases)
+
+### Installation with golang
+
+```bash
+go install github.com/TechMDW/GoDown/cmd/godown@latest
+```
+
 ### How to use?
 
 Run the program from source code (assuming you are in the root of the project):
