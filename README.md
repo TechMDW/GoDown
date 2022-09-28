@@ -41,9 +41,9 @@ Will work on this list when I got some free time. If you want to contribute, fee
 - [ ] UDP flood attack.
 - [ ] Add support for connecting multiple applications (ddos) and attack the same host.
 - [ ] Move necessary code to /pkg.
-- [ ] Add binary for windows.
-- [ ] Add binary for linux.
-- [ ] Add binary for mac.
+- [x] Add binary for windows.
+- [x] Add binary for linux.
+- [x] Add binary for mac.
 
 # Attacks
 
